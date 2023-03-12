@@ -1,0 +1,50 @@
+<div class="aside-block">
+
+    <ul class="nav nav-pills custom-tab-nav mb-4" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-popular-tab" data-bs-toggle="pill" data-bs-target="#pills-popular" type="button" role="tab" aria-controls="pills-popular" aria-selected="true">Popular</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-trending-tab" data-bs-toggle="pill" data-bs-target="#pills-trending" type="button" role="tab" aria-controls="pills-trending" aria-selected="false">Trending</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-latest-tab" data-bs-toggle="pill" data-bs-target="#pills-latest" type="button" role="tab" aria-controls="pills-latest" aria-selected="false">Latest</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+      <!-- Popular -->
+      <div class="tab-pane fade show active" id="pills-popular" role="tabpanel" aria-labelledby="pills-popular-tab">
+        <div class="post-entry-1 border-bottom">
+          {% for popular_post in popular_posts %}
+          <div class="post-meta"><span class="date">{{popular_post.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{popular_post.published_at|date:"j M Y"}}</span></div>
+          <h2 class="mb-2"><a href="{% url 'post-detail' popular_post.pk %}">{{popular_post.title}}</a></h2>
+          <span class="author mb-3 d-block">{{popular_post.author.get_full_name}}</span>
+          {% endfor %}
+        </div>
+      </div> <!-- End Popular -->
+      <!-- Trending -->
+      <div class="tab-pane fade" id="pills-trending" role="tabpanel" aria-labelledby="pills-trending-tab">
+        <div class="post-entry-1 border-bottom">
+          {% for trending  in trending_posts %}
+          <div class="post-meta"><span class="date">{{trending.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{trending.published_at|date:"j M Y"}}</span></div>
+          <h2 class="mb-2"><a href="{% url 'post-detail' trending.pk %}">{{trending.title}}</a></h2>
+          <span class="author mb-3 d-block">{{trending.author.get_full_names}}</span>
+          {% endfor %}
+        </div>
+      </div> <!-- End Trending -->
+
+      <!-- Latest -->
+      <div class="tab-pane fade" id="pills-latest" role="tabpanel" aria-labelledby="pills-latest-tab">
+        <div class="post-entry-1 border-bottom">
+          {% for latest_post in latest_posts %}
+          
+          <div class="post-meta"><span class="date">{{latest_post.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{latest_post.published_at|date:"j M Y"}}</span></div>
+          <h2 class="mb-2"><a href="{% url 'post-detail' latest_post.pk %}">{{latest_post.title}}</a></h2>
+          <span class="author mb-3 d-block">{{latest_post.author.get_full_name}}</span>
+          {% endfor %}
+        </div>
+
+      </div> <!-- End Latest -->
+
+    </div>
+  </div>

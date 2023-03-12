@@ -1,0 +1,88 @@
+{% load static %}
+  <!-- ======= Lifestyle Category Section ======= -->
+    <section class="category-section">
+        <div class="container" data-aos="fade-up">
+  
+          <div class="section-header d-flex justify-content-between align-items-center mb-5">
+            <h2>SPORTS</h2>
+            <div><a href="{% url 'post-category' %}" class="more">See All Posts</a></div>
+          </div>
+  
+          <div class="row g-5">
+            <div class="col-lg-4">
+              <div class="post-entry-1 lg">
+                {% for politics_left_post in politics_left_posts %}
+                
+                <a href="{% url 'post-detail' politics_left_post.pk %}"><img src="{{politics_left_post.featured_image.url}}" alt="" class="img-fluid"></a>
+                <div class="post-meta"><span class="date">{{politics_left_post.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{politics_left_post.published_at|date:"j M Y"}}</span></div>
+                <h2><a href="{% url 'post-detail' politics_left_post.pk %}">{{politics_left_post.title}}</a></h2>
+                <p class="mb-4 d-block">{{politics_left_post.content|truncatechars:80}}</p>
+                
+                              <div class="d-flex align-items-center author">
+                                <div class="photo"><img src="{% static 'assets/img/photos.jpg' %}" alt="" class="img-fluid"></div>
+                                <div class="name">
+                                  <h3 class="m-0 p-0">{{politics_left_post.author}}</h3>
+                                </div>
+                              </div>
+                {% endfor %}
+              </div>
+  
+              <div class="post-entry-1 border-bottom">
+                {% for politics_left_up_post in politics_left_up_posts %}
+                
+                <div class="post-meta"><span class="date">{{politics_left_up_post.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{ politics_left_up_post.published_at|date:"j M Y"}}</span></div>
+                <h2 class="mb-2"><a href="{% url 'post-detail' politics_left_up_post.pk %}">{{politics_left_up_post.title}}</a></h2>
+                <span class="author mb-3 d-block"><{{politics_left_up_post.author}}/span>
+                {% endfor %}
+              </div>
+  
+              <div class="post-entry-1">
+                {% for politics_left_down_post in politics_left_down_posts %}
+                
+                <div class="post-meta"><span class="date">{{politics_left_down_post.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{ politics_left_down_post.published_at|date:"j M Y"}}</span></div>
+                <h2 class="mb-2"><a href="{% url 'post-detail' politics_left_down_post.pk %}">{{politics_left_down_post.title}}</a></h2>
+                <span class="author mb-3 d-block">Bibek Bohara</span>
+                {% endfor %}
+              </div>
+  
+            </div>
+  
+            <div class="col-lg-8">
+              <div class="row g-5">
+                <div class="col-lg-4 border-start custom-border">
+                  <div class="post-entry-1">
+                    {% for politics_left_middle_post in politics_left_middle_posts %}
+                    
+                    <a href="{% url 'post-detail' politics_left_middle_post.pk %}"><img src="{{politics_left_middle_post.featured_image.url}}" alt="" class="img-fluid"></a>
+                    <div class="post-meta"><span class="date">{{politics_left_middle_post.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{ politics_left_middle_post.published_at|date:"j M Y"}}</span></div>
+                    <h2><a href="{% url 'post-detail' politics_left_middle_post.pk %}">{{politics_left_middle_post.title}}</a></h2>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="col-lg-4 border-start custom-border">
+                  <div class="post-entry-1">
+                    {% for politics_right_left_post in politics_right_left_posts %}
+                    
+                    <a href="{% url 'post-detail' politics_right_left_post.pk %}"><img src="{{politics_right_left_post.featured_image.url}}" alt="" class="img-fluid"></a>
+                    <div class="post-meta"><span class="date">{{politics_right_left_post.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{politics_right_left_post.published_at|date:"j M Y"}}</span></div>
+                    <h2><a href="{% url 'post-detail' politics_right_left_post.pk %}">{{politics_right_left_post.title}}</a></h2>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="col-lg-4">
+  
+                  <div class="post-entry-1 border-bottom">
+                    {% for politics_right_post in politics_right_posts %}
+                    
+                    <div class="post-meta"><span class="date">{{politics_right_post.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{ politics_right_post.published_at|date:"j M Y"}}</span></div>
+                    <h2 class="mb-2"><a href="{% url 'post-detail' politics_right_post.pk %}">{{politics_right_post.title}}</a></h2>
+                    <span class="author mb-3 d-block">{{politics_right_post.author}}</span>
+                    {% endfor %}
+                  </div>  
+                </div>
+              </div>
+            </div>
+  
+          </div> <!-- End .row -->
+        </div>
+      </section><!-- End Lifestyle Category Section -->

@@ -1,0 +1,75 @@
+{% load static %}
+<!-- ======= Culture Category Section ======= -->
+<section class="category-section">
+  <div class="container" data-aos="fade-up">
+
+    <div class="section-header d-flex justify-content-between align-items-center mb-5">
+      <h2>Politics</h2>
+      <div><a href="{% url 'post-category' %}" class="more">See All Posts</a></div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-9">
+
+        {% for politics_left_post in politics_left_posts %}
+        <div class="d-lg-flex post-entry-2">
+          
+          <a href="{% url 'post-detail' politics_left_post.pk %}" class="me-4 thumbnail mb-4 mb-lg-0 d-inline-block">
+            <img src="{{politics_left_post.featured_image.url}}" alt="{{politics_left_post.title}}" class="img-fluid">
+          </a>
+          <div>
+            <div class="post-meta"><span class="date">{{politics_left_post.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{politics_left_post.published_at|date:"j M Y"}}</span></div>
+            <h3><a href="{% url 'post-detail' politics_left_post.pk %}">{{politics_left_post.title}}</a></h3>
+            <p>{{politics_left_post.content|truncatechars:250}}</p>
+            <div class="d-flex align-items-center author">
+              <div class="photo"><img src="{% static 'assets/img/photos.jpg' %}" alt="" class="img-fluid"></div>
+              <div class="name">
+                <h3 class="m-0 p-0">Bibek Bohara</h3>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="post-entry-1 border-bottom">
+              {% for politics_left_down_post in politics_left_down_posts %}
+              
+              <a href="{% url 'post-detail' politics_left_down_post.pk %}"><img src="{{politics_left_down_post.featured_image.url}}" alt="{{politics_left_down_post.title}}" class="img-fluid"></a>
+              <div class="post-meta"><span class="date">{{ politics_left_down_post.category.name }}</span> <span class="mx-1">&bullet;</span> <span>{{ politics_left_down_post.published_at|date:"j M Y"}}</span></div>
+              <h2 class="mb-2"><a href="{% url 'post-detail' politics_left_down_post.pk %}">{{politics_left_down_posts.title}}</a></h2>
+              <span class="author mb-3 d-block">Bibek Bohara</span>
+              <p class="mb-4 d-block">{{politics_left_down_post.content|truncatechars:100}}</p>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="post-entry-1">
+              {% for politics_left_up_post in politics_left_up_posts %}
+              
+              <a href="{% url 'post-detail' politics_left_up_post.pk %}"><img src="{{politics_left_up_post.featured_image.url}}" alt="{{politics_left_up_post.title}}" class="img-fluid"></a>
+              <div class="post-meta"><span class="date">{{politics_left_up_post.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{ politics_left_up_post.published_at|date:"j M Y"}}</span></div>
+              <h2 class="mb-2"><a href="{% url 'post-detail' politics_left_up_post.pk %}">{{politics_left_up_post.title}}</a></h2>
+              <span class="author mb-3 d-block">Jenny Wilson</span>
+              <p class="mb-4 d-block">{{politics_left_up_post.content|truncatechars:500}}</p>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="post-entry-1 border-bottom">
+          {% for politics_right_post in politics_right_posts %}
+          
+          <div class="post-meta"><span class="date">{{politics_right_post.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{ politics_right_post.published_at|date:"j M Y"}}</span></div>
+          <h2 class="mb-2"><a href="{% url 'post-detail' politics_right_post.pk %}">{{politics_right_post.title}}</a></h2>
+          <span class="author mb-3 d-block">Bibek Bohara</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!-- End Culture Category Section -->

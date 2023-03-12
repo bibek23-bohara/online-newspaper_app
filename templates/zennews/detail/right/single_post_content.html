@@ -1,0 +1,7 @@
+            <!-- ======= Single Post Content ======= -->
+            <div class="single-post">
+              <img src="{{post.featured_image.url}}" alt="{{post.title}}" class="img-fluid" width="800px">
+                <div class="post-meta"><span class="date">{{post.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{post.published_at|date:"j M Y"}}<span></div>
+                <h1 class="mb-5">{{post.title}}</h1>
+                <p><span class="firstcharacter"></span>{{post.content|linebreaksbr}}</p>
+              </div><!-- End Single Post Content -->

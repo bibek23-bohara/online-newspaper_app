@@ -1,0 +1,72 @@
+   {% load static %}
+   <!-- ======= Post Grid Section ======= -->
+    <section id="posts" class="posts">
+        <div class="container" data-aos="fade-up">
+          <div class="row g-5">
+            <div class="col-lg-4">
+              <div class="post-entry-1 lg">
+                {% for post_grid in post_grids %}
+                
+                <a href="{% url 'post-detail' post_grid.pk %}"><img src="{{post_grid.featured_image.url}}" alt="{{post_grid.title}}" class="img-fluid"></a>
+                <div class="post-meta"><span class="date">{{post_grid.category.name}}</span> <span class="mx-1">&bullet;</span><span>{{post_grid.published_at|date:"j M Y"}} </span></div>
+                <h2><a href="{% url 'post-detail' post_grid.pk %}">{{ post_grid.title}}</a></h2>
+                <p class="mb-4 d-block">{{ post_grid.content|truncatechars:200}}</p>
+                <div class="d-flex align-items-center author">
+                  <div class="photo"><img src="{% static 'assets/img/photos.jpg'%}" alt="" class="img-fluid"></div>
+                  <div class="name">
+                    <h3 class="m-0 p-0">{{post_grid.author.get_full_name}}</h3>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+  
+            </div>
+  
+            <div class="col-lg-8">
+              <div class="row g-5">
+                <div class="col-lg-4 border-start custom-border">
+                  <div class="post-entry-1">
+                    {% for post_right_grid in post_right_grids %}
+                    
+                    <a href="{% url 'post-detail' post_right_grid.pk %}"><img src="{{post_right_grid.featured_image.url}}" alt="{{post_right_grid.title}}" class="img-fluid"></a>
+                    <div class="post-meta"><span class="date">{{post_right_grid.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{post_right_grid.published_at|date:"j M Y"}}</span></div>
+                    <h2><a href="{% url 'post-detail' post_right_grid.pk %}">{{post_right_grid.title}}</a></h2>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="col-lg-4 border-start custom-border">
+                  <div class="post-entry-1">
+                    {% for post_left_grid in post_left_grids %}
+                    
+                    <a href="{% url 'post-detail' post_left_grid.pk %}"><img src="{{post_left_grid.featured_image.url}}" alt="{{post_left_grid.title}}" class="img-fluid"></a>
+                    <div class="post-meta"><span class="date">{{post_left_grid.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{post_left_grid.published_at|date:"j M Y"}}</span></div>
+                    <h2><a href="{% url 'post-detail' post_left_grid.pk %}">{{post_left_grid.title}}</a></h2>
+                    {% endfor %}
+                  </div>
+                </div>
+  
+                <!-- Trending Section -->
+                <div class="col-lg-4">
+  
+                  <div class="trending">
+                    <h3>Trending</h3>
+                    <ul class="trending-post">
+                      {% for tranding in trandings %}
+                      <li>
+                        <a href="{% url 'post-detail' tranding.pk %}">
+                          <h3>{{tranding.title}}</h3>
+                          <span>{{tranding.published_at|date:"j M Y"}}</span>
+                          <span class="author">{{tranding.author.get_full_name}}</span>
+                        </a>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+  
+                </div> <!-- End Trending Section -->
+              </div>
+            </div>
+  
+          </div> <!-- End .row -->
+        </div>
+      </section> <!-- End Post Grid Section -->
