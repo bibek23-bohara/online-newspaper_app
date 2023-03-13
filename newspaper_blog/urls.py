@@ -27,12 +27,6 @@ urlpatterns = [
     views.PostByTagView.as_view(),
     name="post-by-tag",
     ),
-
-    path(
-    "post-search/",
-    views.PostSearchView.as_view(),
-    name="post-search",
-    ),
     path(
     "about/",
     views.AboutView.as_view(),

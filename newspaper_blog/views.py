@@ -89,8 +89,6 @@ class PostCategoryView(ListView):
         context["latest_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-published_at")[:5]
         context["popular_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-tag")[:5]
         context["category_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-published_at")
-        
-
         return context
 
 class PostByCategoryView(ListView):
@@ -127,22 +125,6 @@ class AboutView(TemplateView):
         context["recent_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-published_at")[:4]
         return context
     
-class PostSearchView(View):
-    def get(self, request, *args, **kwargs):
-        query = request.GET.get("query")
-        post_list = Post.objects.filter(
-            (Q(status = "active")& Q(published_at__isnull= False))
-        &(Q(title_icontains=query) |Q(content_icontains = query)),
-        )
-        return render(
-            request,
-            "zennews/header/header.hmtl",
-            {"page_obj":post_list, "query":query},
-        )
-    
-
-
-
 class ContactView(View):
     template_name = "zennews/contact.html"
     form_class = ContactForm
@@ -256,7 +238,3 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     form_class =PostForm
     template_name ="news_admin/post_create.html"
     success_url = reverse_lazy("post-list")
-
-
-def handler404(request,exception, template_name="404.html"):
-    return render(request, template_name, status=404)
