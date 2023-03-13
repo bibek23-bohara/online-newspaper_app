@@ -1,11 +1,17 @@
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.views.generic import ListView, DetailView, TemplateView, View
-from newspaper_blog.models import Post, Category, Tag
-from django.utils import timezone
-from django.db.models import Q
 from datetime import timedelta
-from newspaper_blog.forms import ContactForm, CommentForm
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
+from django.utils import timezone
+from django.views.generic import DetailView, ListView, TemplateView, View, DeleteView, UpdateView, CreateView
+from newspaper_blog.forms import CommentForm, ContactForm, PostForm
+from newspaper_blog.models import Category, Post, Tag
+
+
 class Homeview(ListView):
     name = Post
     template_name="zennews/home.html"
@@ -181,3 +187,76 @@ class CommentView(View):
                 {"post":post, "form":form},
             )
 
+class DraftListView(ListView):
+    model=Post
+    template_name = "news_admin/draft_list.html"
+    context_object_name ="posts"
+    queryset = Post.objects.filter(
+        published_at__isnull=True).order_by("-published_at")
+    
+
+
+class DraftDetailView(DetailView):
+    model= Post
+    template_name ="news_admin/draft_detail.html"
+    context_object_name ="post"
+    
+
+
+class PostDeleteView(LoginRequiredMixin,DeleteView):
+    model =Post
+    success_url = reverse_lazy("post-list")
+
+    def form_valid(self,form):
+        messages.success(self.request, "post was successfully deleted")
+        return super().form_valid(form)
+
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = PostForm
+    template_name ="news_admin/post-create.html"
+    success_url = reverse_lazy("draft-list")
+
+    def form_valid(self,form):
+        form.instance.author = self.request.user
+        messages.success(self.request, "post was successfully created")
+        return super().form_valid(form)
+
+def post_create(request):
+    form = PostForm()
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            messages.success(request,"post was successfully created")
+            return redirect("news_admin/post-list", post.pk)
+        else:
+            messages.error(request,"post was not created")
+    return render(
+        request,
+        "news_admin/post_create.html",
+        {"form": form},
+    )
+
+class PostPublishView(LoginRequiredMixin, View):
+    def get(self, request, pk, *args, **kwargs):
+        post = get_object_or_404(Post, pk = pk)
+        post.published_at = timezone.now()
+        post.save()
+        messages.success(request,"post was successfully published")
+        return redirect("post-list", post.pk)
+        
+
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model= Post
+    form_class =PostForm
+    template_name ="news_admin/post_create.html"
+    success_url = reverse_lazy("post-list")
+
+
+def handler404(request,exception, template_name="404.html"):
+    return render(request, template_name, status=404)

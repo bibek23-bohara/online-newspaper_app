@@ -32,11 +32,10 @@
 
       {% if user.is_authenticated %}
       <div class="position-relative"> 
-        <a href="#" class="mx-2"><span class="bi-plus"></span></a>
+        <a href="{% url 'post-create' %}" class="mx-2"><span class="bi-plus"></span></a>
         <a href="#" class="mx-2"><span class="bi-tags"></span></a>
         <a href="#" class="mx-2"><span class="bi-calendar"></span></a>
         <a href="{% url 'logout' %}" class="mx-2"><span class="bi-box-arrow-in-right"></span></a>
-        <a href="#" class="mx-2 js-search-open"><span class="bi-search"></span></a>
         {% else %}
         <a href="{% url 'login' %}" class="mx-2"><span class="bi-box-arrow-in-left"></span></a>
         
