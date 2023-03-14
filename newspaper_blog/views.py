@@ -7,7 +7,9 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import DetailView, ListView, TemplateView, View, DeleteView, UpdateView, CreateView
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  TemplateView, UpdateView, View)
+from django.http import JsonResponse
 from newspaper_blog.forms import CommentForm, ContactForm, PostForm
 from newspaper_blog.models import Category, Post, Tag
 
@@ -176,7 +178,8 @@ class DraftListView(ListView):
     queryset = Post.objects.filter(
         published_at__isnull=True).order_by("-published_at")
     
-
+def handler404(request,exception, template_name="404.html"):
+    return render(request, template_name, status=404)
 
 class DraftDetailView(DetailView):
     model= Post
