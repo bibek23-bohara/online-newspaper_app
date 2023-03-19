@@ -30,17 +30,27 @@
       </nav>
       <!-- .navbar -->
 
-      {% if user.is_authenticated %}
-      <div class="position-relative"> 
+
+      <div class="position-relative">
+    {% if user.is_authenticated %}
+
         <a href="{% url 'post-create' %}" class="mx-2"><span class="bi-plus"></span></a>
-        <a href="#" class="mx-2"><span class="bi-tags"></span></a>
-        <a href="#" class="mx-2"><span class="bi-calendar"></span></a>
         <a href="{% url 'logout' %}" class="mx-2"><span class="bi-box-arrow-in-right"></span></a>
-        {% else %}
-        <a href="{% url 'login' %}" class="mx-2"><span class="bi-box-arrow-in-left"></span></a>
-        
+    {% else %}
+    <a href="{% url 'login' %}" class="mx-2"><span class="bi-box-arrow-in-left"></span></a>
+    {% endif %}
+
+        <a href="#" class="mx-2 js-search-open"><span class="bi-search"></span></a>
         <i class="bi bi-list mobile-nav-toggle"></i>
-        {% endif %}
+
+        <!-- ======= Search Form ======= -->
+        <div class="search-form-wrap js-search-form-wrap">
+          <form action="search-result.html" class="search-form">
+            <span class="icon bi-search"></span>
+            <input type="text" placeholder="Search" class="form-control">
+            <button class="btn js-search-close"><span class="bi-x"></span></button>
+          </form>
+        </div><!-- End Search Form -->
 
       </div>
 

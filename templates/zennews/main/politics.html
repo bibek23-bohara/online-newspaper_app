@@ -4,7 +4,7 @@
         <div class="container" data-aos="fade-up">
   
           <div class="section-header d-flex justify-content-between align-items-center mb-5">
-            <h2>SPORTS</h2>
+            <h2>Top News</h2>
             <div><a href="{% url 'post-category' %}" class="more">See All Posts</a></div>
           </div>
   
@@ -14,7 +14,7 @@
                 {% for politics_left_post in politics_left_posts %}
                 
                 <a href="{% url 'post-detail' politics_left_post.pk %}"><img src="{{politics_left_post.featured_image.url}}" alt="" class="img-fluid"></a>
-                <div class="post-meta"><span class="date">{{politics_left_post.category.name}}</span> <span class="mx-1">&bullet;</span> <span>{{politics_left_post.published_at|date:"j M Y"}}</span></div>
+                <div class="post-meta"><span class="date">{{politics_left_post.category.name|title}}</span> <span class="mx-1">&bullet;</span> <span>{{politics_left_post.published_at|date:"j M Y"}}</span></div>
                 <h2><a href="{% url 'post-detail' politics_left_post.pk %}">{{politics_left_post.title}}</a></h2>
                 <p class="mb-4 d-block">{{politics_left_post.content|truncatechars:80}}</p>
                 

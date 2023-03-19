@@ -10,11 +10,11 @@ class PostForm(forms.ModelForm):
                    "featured_image", 
                    "status",
                     "category",
-                     "tag",
+                    "tag",
                      )
+          
 
-    
-     
+
 class ContactForm(forms.ModelForm):
      class Meta:
           model = Contact

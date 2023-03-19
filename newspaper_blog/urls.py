@@ -68,6 +68,7 @@ urlpatterns = [
          views.DraftDetailView.as_view(),
          name="draft-detail"
     ),
+    
 
 
          

@@ -28,9 +28,6 @@
     </div>
   </div>
 
-
-
-
         <div class="post">
             {% if post.published_at %}
             <div class="date">
@@ -42,7 +39,7 @@
             {% endif %}
             {% endif %}
             <h1>
-                <a href="{% url 'post-detail' post.pk %}">{{post.title}}</a>
+                <a href="{% url 'post-delete' post.pk %}">{{post.title}}</a>
             </h1>
             {% if user.is_authenticated %}
             <button type="button" 

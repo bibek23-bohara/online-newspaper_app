@@ -1,13 +1,13 @@
 <div class="text-start py-4">
     <div class="custom-pagination">
         {% if page_obj.has_previous %}
-        <a href="#" class="prev">Previous</a>
+        <a href="?page={{i}}" class="prev">Previous</a>
         {% endif %}
         {% for i  in paginator.page_range %}
         <a href="?page={{i}}" class="{% if i == page_obj.number%}active{% endif %}">{{i}}</a>
         {% endfor %}
         {% if page_obj.has_next %}
-        <a href="#" class="next">Next</a>
+        <a href="?page={{i}}" class="next">Next</a>
         {% endif %}
     </div>
 </div>

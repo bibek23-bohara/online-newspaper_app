@@ -4,14 +4,15 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView, View)
-from django.http import JsonResponse
+
 from newspaper_blog.forms import CommentForm, ContactForm, PostForm
-from newspaper_blog.models import Category, Post, Tag
+from newspaper_blog.models import Category,Post,Tag
 
 
 class Homeview(ListView):
@@ -32,21 +33,21 @@ class Homeview(ListView):
         context["post_right_grids"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-views_count")[2:5]
         context["post_left_grids"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-created_at")[3:5]
         context["trandings"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-published_at")[:5]
-        context["politics_left_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-views_count")[4:5]
-        context["politics_left_down_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-views_count")[3:5]
-        context["politics_left_up_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-views_count")[6:7]
-        context["politics_right_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-views_count")[:5]
-        context["bussiness_right_categories"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-views_count")[4:5]
-        context["bussiness_left_up_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-created_at")[4:5]
+        context["politics_left_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("category")[4:5]
+        context["politics_left_down_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("category")[3:5]
+        context["politics_left_up_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("category")[6:7]
+        context["politics_right_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("category")[:5]
+        context["bussiness_right_categories"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("category")[4:5]
+        context["bussiness_left_up_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("category")[4:5]
         context["bussiness_left_down_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("category")[4:5]
-        context["bussiness_right_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-tag")[4:5]
-        context["bussiness_left_categories"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-views_count")[2:7]
-        context["politics_left_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-views_count")[6:7]
-        context["politics_left_down_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-views_count")[6:7]
-        context["politics_left_up_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-views_count")[5:6]
-        context["politics_left_middle_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-views_count")[4:6]
-        context["politics_right_left_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-views_count")[1:3]
-        context["politics_right_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-views_count")[2:7]
+        context["bussiness_right_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("category")[4:5]
+        context["bussiness_left_categories"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("category")[2:7]
+        context["politics_left_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("category")[6:7]
+        context["politics_left_down_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("category")[6:7]
+        context["politics_left_up_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("category")[5:6]
+        context["politics_left_middle_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("published_at")[:3]
+        context["politics_right_left_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("category")[1:3]
+        context["politics_right_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("category")[2:7]
         context["footer_categories"]=Category.objects.all()[:6]
         context["recent_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-published_at")[:4]
         return context
@@ -171,15 +172,6 @@ class CommentView(View):
                 {"post":post, "form":form},
             )
 
-class DraftListView(ListView):
-    model=Post
-    template_name = "news_admin/draft_list.html"
-    context_object_name ="posts"
-    queryset = Post.objects.filter(
-        published_at__isnull=True).order_by("-published_at")
-    
-def handler404(request,exception, template_name="404.html"):
-    return render(request, template_name, status=404)
 
 class DraftDetailView(DetailView):
     model= Post
@@ -212,7 +204,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 def post_create(request):
     form = PostForm()
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -241,3 +233,13 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     form_class =PostForm
     template_name ="news_admin/post_create.html"
     success_url = reverse_lazy("post-list")
+
+class DraftListView(ListView):
+    model=Post
+    template_name = "news_admin/draft_list.html"
+    context_object_name ="posts"
+    queryset = Post.objects.filter(
+        published_at__isnull=True).order_by("-published_at")
+    
+def handler404(request,exception, template_name="404.html"):
+    return render(request, template_name, status=404)
