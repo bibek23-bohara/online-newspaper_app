@@ -52,7 +52,7 @@ urlpatterns = [
         ),
     path(
         "post-create/",
-        views.post_create,
+        views.PostCreateView.as_view(),
         name="post-create"
     ),
     path(
@@ -68,7 +68,6 @@ urlpatterns = [
          views.DraftDetailView.as_view(),
          name="draft-detail"
     ),
-    
 
 
          
