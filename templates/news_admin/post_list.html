@@ -8,7 +8,7 @@
             </div>
             {% endif %}
             <h1>
-                <a href="{% url 'post-detail' post.pk %}">{{post.title}}</a>
+                <a href="{% url 'post-list' post.pk %}">{{post.title}}</a>
             </h1>
             <p>{{post.content|truncatechars:200 }}</p>
         </div>
