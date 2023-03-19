@@ -11,7 +11,7 @@ from django.utils import timezone
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView, View)
 
-from newspaper_blog.forms import CommentForm, ContactForm, PostForm
+from newspaper_blog.forms import CommentForm, ContactForm, PostForm, TagForm, CategoryForm
 from newspaper_blog.models import Category,Post,Tag
 PAGINATE_BY = 1
 
@@ -230,5 +230,71 @@ class DraftListView(LoginRequiredMixin, ListView):
     queryset = Post.objects.filter(published_at__isnull=True)
     paginate_by = PAGINATE_BY
     
+
 def handler404(request,exception, template_name="404.html"):
     return render(request, template_name, status=404)
+
+class TagDetailView(DetailView):
+    model = Tag
+    template_name = "news_admin/tag_detail.html"
+    context_object_name = "tag"
+
+
+class TagListView(LoginRequiredMixin, ListView):
+    model = Tag
+    template_name = "news_admin/tag_list.html"
+    context_object_name = "tags"
+
+
+class TagCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = TagForm
+    template_name = "news_admin/tag_create.html"
+    success_url = reverse_lazy("tag-list")
+
+
+class TagDeleteView(LoginRequiredMixin, View):
+    def get(self, request, pk, *args, **kwargs):
+        tag = get_object_or_404(Tag, pk=pk)
+        tag.delete()
+        return redirect("tag-list")
+
+
+class TagUpdateView(LoginRequiredMixin, UpdateView):
+    model = Tag
+    form_class = TagForm
+    template_name = "news_admin/tag_create.html"
+    success_url = reverse_lazy("home")
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+    template_name = "news_admin/category_detail.html"
+    context_object_name = "category"
+
+
+class CategoryListView(LoginRequiredMixin, ListView):
+    model = Category
+    template_name = "news_admin/category_list.html"
+    context_object_name = "categories"
+
+
+class CategoryCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = CategoryForm
+    template_name = "news_admin/category_create.html"
+    success_url = reverse_lazy("category-list")
+
+
+class CategoryDeleteView(LoginRequiredMixin, View):
+    def get(self, request, pk, *args, **kwargs):
+        category = get_object_or_404(Category, pk=pk)
+        category.delete()
+        return redirect("category-list")
+
+
+class CategoryUpdateView(LoginRequiredMixin, UpdateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = "news_admin/category_create.html"
+    success_url = reverse_lazy("home")

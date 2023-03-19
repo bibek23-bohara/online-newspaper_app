@@ -68,6 +68,56 @@ urlpatterns = [
          views.DraftDetailView.as_view(),
          name="draft-detail"
     ),
+      path(
+        "tag-detail/<int:pk>/",
+        views.TagDetailView.as_view(),
+        name="tag-detail",
+    ),
+    path(
+        "tags/",
+        views.TagListView.as_view(),
+        name="tag-list",
+    ),
+    path(
+        "tag-create/",
+        views.TagCreateView.as_view(),
+        name="tag-create",
+    ),
+    path(
+        "tag-delete/<int:pk>/",
+        views.TagDeleteView.as_view(),
+        name="tag-delete",
+    ),
+    path(
+        "tag-update/<int:pk>/",
+        views.TagUpdateView.as_view(),
+        name="tag-update",
+    ),
+     path(
+        "category-detail/<int:pk>/",
+        views.CategoryDetailView.as_view(),
+        name="category-detail",
+    ),
+    path(
+        "categories/",
+        views.CategoryListView.as_view(),
+        name="category-list",
+    ),
+    path(
+        "category-create/",
+        views.CategoryCreateView.as_view(),
+        name="category-create",
+    ),
+    path(
+        "category-delete/<int:pk>/",
+        views.CategoryDeleteView.as_view(),
+        name="category-delete",
+    ),
+    path(
+        "category-update/<int:pk>/",
+        views.CategoryUpdateView.as_view(),
+        name="category-update",
+    ),
 
 
          

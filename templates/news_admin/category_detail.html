@@ -1,0 +1,8 @@
+{% extends "news_admin/base.html" %}
+
+{% block content %}
+  <div class="post my-4">
+    {% include "news_admin/partials/category_action.html" %}
+    <p align="justify">{{ category.name }}</p>
+  </div>
+{% endblock content %}
