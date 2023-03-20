@@ -106,7 +106,11 @@ class PostByCategoryView(ListView):
         super().get_queryset()
         queryset =Post.objects.filter(status="active", published_at__isnull=False, category=self.kwargs["cat_id"]).order_by("-published_at").all()
         return queryset
-    
+    def get_context_data(self,*args,**kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["footer_categories"]=Category.objects.all()[:6]
+        context["recent_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-published_at")[:4]
+        return context
 
 class PostByTagView(ListView):
     model = Post
