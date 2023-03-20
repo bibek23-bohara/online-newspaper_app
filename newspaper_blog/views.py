@@ -237,7 +237,7 @@ def handler404(request,exception, template_name="404.html"):
 class TagDetailView(DetailView):
     model = Tag
     template_name = "news_admin/tag_detail.html"
-    context_object_name = "tag"
+    context_object_name = "tags"
 
 
 class TagListView(LoginRequiredMixin, ListView):
@@ -276,7 +276,7 @@ class CategoryDetailView(DetailView):
 class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
     template_name = "news_admin/category_list.html"
-    context_object_name = "categories"
+    context_object_name = "category-detail"
 
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):

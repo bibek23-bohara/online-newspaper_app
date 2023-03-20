@@ -3,6 +3,6 @@
 {% block content %}
   <div class="post my-4">
     {% include "news_admin/partials/tag_action.html" %}
-    <p align="justify">{{ tag.name }}</p>
+    <p align="justify" href="{% url 'tag-detail' %}">{{ tag.name }}</p>
   </div>
 {% endblock content %}
