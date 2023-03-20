@@ -138,22 +138,18 @@ class AboutView(TemplateView):
 class ContactView(View):
     template_name = "zennews/contact.html"
     form_class = ContactForm
-
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
-    
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
             messages.success(
                 request, "Successfully submitted your Query. We will contact you soon."
-
             )
         else:
             messages.success(
                 request, "Sorry your Query Cannot be submitted. Please check agin and try again."
-
             )
         return render(
             request,
