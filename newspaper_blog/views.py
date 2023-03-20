@@ -93,6 +93,8 @@ class PostCategoryView(ListView):
         context["latest_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-published_at")[:5]
         context["popular_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-tag")[:5]
         context["category_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-published_at")
+        context["footer_categories"]=Category.objects.all()[:6]
+        context["recent_posts"]=Post.objects.filter(status="active", published_at__isnull=False).order_by("-published_at")[:4]
         return context
 
 class PostByCategoryView(ListView):
